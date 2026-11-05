@@ -20,17 +20,23 @@ class FakeTarget(Node):
         # Call self.timer_callback every 1/30 of a second
         self.timer = self.create_timer(1.0 / 30.0, self.timer_callback)
 
+        self.declare_parameter('frequency', 0.2)
+        self.declare_parameter('amplitude', 0.8)
+
     def timer_callback(self):
         # Seconds since the node started
         t = (self.get_clock().now() - self.start_time).nanoseconds / 1e9
 
         target = Point()
-        target.x = 0.8 * math.sin(2 * math.pi * 0.2 * t)
+        target.x = self.get_parameter('amplitude').value * math.sin(2 * math.pi * self.get_parameter('frequency').value * t)
         target.y = .4 * math.sin(math.pi * 0.05 * t)
         target.z = 0.0
 
         found = Bool()
-        found.data = True
+        if t % 10 < 1:
+            found.data = False
+        else:   
+            found.data = True
 
         self.target_pub.publish(target)
         self.found_pub.publish(found)
