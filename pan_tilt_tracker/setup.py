@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'fake_target = pan_tilt_tracker.fake_target:main',
         ],
     },
 )
