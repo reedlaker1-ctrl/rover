@@ -19,8 +19,8 @@ A ROS2 package designed to allow a servo-mounted camera to track an object of in
 
 | Topic | Type | Units / meaning | Publisher | Subscriber |
 |-------|------|-----------------|-----------|------------|
-| /target | ? | Normalized offset of target image center, x and y each in [-1, 1]. | fake_target/ tracker_node | pan_tilt_controller |
-| /target_found | ? | ? | fake_target | pan_tilt_controller |
+| /target | geometry_msgs/point | Normalized offset of target image center, x and y each in [-1, 1]. | fake_target/ tracker_node | pan_tilt_controller |
+| /target_found | std_msgs/Bool | True if target is currently visible | fake_target | pan_tilt_controller |
 | /servo_cmd | ? | ? | pan_tilt_controller | servo_sim |
 
 ## Setup
@@ -28,3 +28,12 @@ A ROS2 package designed to allow a servo-mounted camera to track an object of in
 Requires Ubuntu 22.04 and ROS 2 Humble.
 
 ## Usage
+
+
+## Design Decisions
+### Lost targets are signaled on a seperate /target_found topic
+The target source publishes on seperate target_found boolean alongside target. When false, target can be ignored. Controller holds last command until target is back in range. 
+
+
+
+
