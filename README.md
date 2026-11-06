@@ -5,15 +5,15 @@ A ROS2 package designed to allow a servo-mounted camera to track an object of in
 ## Status
 
 - [x] Package created
-- [ ] fake_target node
-- [ ] pan_tilt_controller node
-- [ ] servo_sim node
+- [x] fake_target node
+- [x] pan_tilt_controller node
+- [x] servo_sim node
 - [ ] tracker_node (video file, then webcam)
 - [ ] Launch file and params
 - [ ] Hardware implementation
 
 ## Architecture
-
+![Node graph](docs/rosgraph.png)
 
 ## Topics
 
@@ -22,7 +22,7 @@ A ROS2 package designed to allow a servo-mounted camera to track an object of in
 | /target | geometry_msgs/point | Normalized offset of target image center, x and y each in [-1, 1]. | fake_target/ tracker_node | pan_tilt_controller |
 | /target_found | std_msgs/Bool | True if target is currently visible | fake_target | pan_tilt_controller |
 | /servo_cmd | geometry_msgs | x = pan angle, y = tilt angle | pan_tilt_controller | servo_sim |
-| /
+
 
 ## Setup
 
