@@ -1,6 +1,6 @@
-import rclpy
-from rclpy.node import Node
-from geometry_msgs.msg import Vector3
+import rclpy # type: ignore
+from rclpy.node import Node # type: ignore
+from geometry_msgs.msg import Vector3 # type: ignore
 
 
 class ServoSim(Node):

@@ -1,6 +1,6 @@
-import rclpy
-from rclpy.node import Node
-from geometry_msgs.msg import Point, Vector3
+import rclpy # type: ignore
+from rclpy.node import Node # type: ignore
+from geometry_msgs.msg import Point, Vector3 # type: ignore
 from std_msgs.msg import Bool
 
 
@@ -47,7 +47,7 @@ class PanTiltController(Node):
         #           update self.pan and self.tilt using the formulas above
         #           (read kp_pan, kp_tilt with get_parameter(...).value)
         # TODO: clamp self.pan and self.tilt to their limits
-        target_age_s = self.last_target_time.nanoseconds / 1e9 if self.last_target_time is not None else None
+        target_age_s = (self.get_clock().now() - self.last_target_time).nanoseconds / 1e9 if self.last_target_time is not None else None
         if self.found and target_age_s is not None:
             self.pan = self.pan + self.get_parameter('kp_pan').value * self.target.x * self.dt
             self.tilt = self.tilt + self.get_parameter('kp_tilt').value * self.target.y * self.dt

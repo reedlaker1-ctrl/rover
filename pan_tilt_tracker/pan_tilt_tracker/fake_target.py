@@ -1,8 +1,8 @@
 import math
 
-import rclpy
-from rclpy.node import Node
-from geometry_msgs.msg import Point
+import rclpy # type: ignore
+from rclpy.node import Node # type: ignore
+from geometry_msgs.msg import Point, Vector3 # type: ignore
 from std_msgs.msg import Bool
 
 
@@ -14,7 +14,8 @@ class FakeTarget(Node):
         self.target_pub = self.create_publisher(Point, '/target', 10)
         self.found_pub = self.create_publisher(Bool, '/target_found', 10)
 
-        # Remember when we started, so we can compute elapsed time
+        self.create_subscription(Vector3, '/servo_state', self.servo_state_callback, 10)
+
         self.start_time = self.get_clock().now()
 
         # Call self.timer_callback every 1/30 of a second
@@ -22,6 +23,13 @@ class FakeTarget(Node):
 
         self.declare_parameter('frequency', 0.2)
         self.declare_parameter('amplitude', 0.8)
+
+        self.servo_state = Vector3()
+
+        self.declare_parameter('half_fov', .5)
+
+    def servo_state_callback(self, msg):
+        self.servo_state = msg
 
     def timer_callback(self):
         # Seconds since the node started
@@ -38,7 +46,14 @@ class FakeTarget(Node):
         else:   
             found.data = True
 
-        self.target_pub.publish(target)
+        half_fov = self.get_parameter('half_fov').value
+
+        target_position = Point()
+        target_position.x = (target.x - self.servo_state.x) / half_fov
+        target_position.y = (target.y - self.servo_state.y) / half_fov
+        target_position.z = 0.0
+
+        self.target_pub.publish(target_position)
         self.found_pub.publish(found)
 
 
