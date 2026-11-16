@@ -1,6 +1,6 @@
 # Camera tracker (ROS 2)
 
-A ROS2 package designed to allow a servo-mounted camera to track an object of interest.
+A ROS2 package designed to allow a duel-servo-mounted camera to track an object of interest.
 
 ## Status
 
@@ -27,9 +27,6 @@ A ROS2 package designed to allow a servo-mounted camera to track an object of in
 ## Setup
 
 Requires Ubuntu 22.04 and ROS 2 Humble.
-
-## Usage
-
 
 ## Design Decisions
 ### Lost targets are signaled on a seperate /target_found topic
